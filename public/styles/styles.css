@@ -60,14 +60,12 @@ canvas {
 }
 
 .modal {
-    border-radius: 12.5px;
-    border-top-right-radius: 25px;
+    border-radius: 6px;
     background-color: white;
     position: fixed;
 
     overflow: hidden;
 
-    border-radius: 12.5px;
     border: 1px solid #e5e7eb;
     box-shadow: 0 0 4px #939597;
     display: block;
@@ -121,7 +119,7 @@ canvas {
     0% {
         height: 250px;
         width: 30%;
-        border-radius: 12.5px;
+        /* border-radius: 12.5px; */
         border: 1px solid #e5e7eb;
         box-shadow: 0 0 10px #939597;
         display: block;

@@ -95,15 +95,6 @@ class Algorithm {
         this.steps.push({"visited": curNode});
         // this.steps[this.steps.length - 1]["visited"] = curNode;
     }
-
-    togglePause() {
-        if (this.pause) {
-            this.pause = false;
-        }
-        else {
-            this.pause = true;
-        }
-    }
     isComplete() {
         return(this.complete);
     }

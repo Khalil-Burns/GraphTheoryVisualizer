@@ -26,7 +26,7 @@ window.onload = function() {
 
         var mousePos = getMousePos(canvas, eDbclick);
         adjMat[nodesNum] = {};
-        nodes[nodesNum] = (new Node(mousePos.x, mousePos.y, 0, 0, [], 25, {}, nodesNum))
+        nodes[nodesNum] = (new Node(mousePos.x, mousePos.y, Math.random() * 4 - 2, Math.random() * 4 - 2, [], 25, {}, nodesNum))
         nodes[nodesNum].element.onmousedown = dragMouseDown;
         nodes[nodesNum].element.addEventListener("dblclick", (e) => { //double click node to delete it
             if (Algorithm.running) {

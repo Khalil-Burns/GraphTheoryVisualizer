@@ -24,6 +24,7 @@ class Canvas {
         for (var u in Object.keys(adjMat)) {
             for (var v in adjMat[u]) {
                 this.context.beginPath();
+                this.context.lineWidth = 1.5 + 0.5 * Math.sin(new Date().getTime() / 750);
                 this.context.strokeStyle = "black";
                 this.context.moveTo(nodes[u].x, nodes[u].y);
                 this.context.lineTo(nodes[v].x, nodes[v].y);

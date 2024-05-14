@@ -5,6 +5,7 @@ var prevTime;
 var curTime;
 var dTime;
 var errorMessage;
+var isAlgorithmPaused = false;
 
 function buttonScriptStart() {
     algSelect = document.getElementById('algorithms-select');
@@ -30,15 +31,35 @@ function runAlgorithm() {
         Algorithm.running = true;
         prevTime = new Date().getTime();
     }
+    else if (isAlgorithmPaused) {
+        isAlgorithmPaused = false;
+    }
     else {
         errorMessage.innerHTML = 'Algorithm Already Running'
     }
 }
 function pauseAlgorithm() {
     errorMessage.innerHTML = ''
+
+    if (!Algorithm.running) {
+        errorMessage.innerHTML = "Algorithm isn't running"
+        return;
+    }
+
+    if (isAlgorithmPaused) {
+        isAlgorithmPaused = false;
+    }
+    else {
+        errorMessage.innerHTML = 'Algorithm is paused'
+        isAlgorithmPaused = true;
+    }
 }
 function stopAlgorithm() {
     errorMessage.innerHTML = ''
+    if (!Algorithm.running) {
+        errorMessage.innerHTML = "Algorithm isn't running"
+        return;
+    }
     alg.complete = true;
 }
 function stepHandler() {
@@ -51,6 +72,9 @@ function stepHandler() {
 
         curTime = new Date().getTime();
         if (curTime - prevTime >= dTime.value) {
+            if (isAlgorithmPaused) {
+                return;
+            }
             alg.step();
             prevTime = curTime;
         }
