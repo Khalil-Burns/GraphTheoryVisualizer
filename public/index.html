@@ -4,12 +4,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link href="styles/styles.css" rel="stylesheet" type="text/css"/>
+
     <script src="scripts/script.js"></script>
+    <script src="scripts/buttonScript.js"></script>
     <script src="scripts/Canvas.js"></script>
     <script src="scripts/Node.js"></script>
+    <script src="scripts/Algorithm.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script> -->
+    
     <title>Graph Theory Visualizer</title>
 </head>
 <body>
+    <label for="algorithms-select">Select an algorithm to run:</label>
+    <select name="algorithms-select" id="algorithms-select">
+        <option value="dfs">DFS</option>
+        <option value="bfs">BFS</option>
+    </select>
+    <button id="run-button" class="icon-button">
+        <i class="fa fa-play icon" onclick="runAlgorithm()"></i>
+    </button>
+    <button id="pause-button" class="icon-button">
+        <i class="fa fa-pause icon" onclick="pauseAlgorithm()"></i>
+    </button>
+    <button id="stop-button" class="icon-button">
+        <i class="fa fa-stop icon" onclick="stopAlgorithm()"></i>
+    </button>
+    <br>
+    <p id="error-message"></p>
+    <br>
+    <div id="edge-settings" class="modal">
+        <p>Edge Settings:</p>
+        <br>
+        <label for="edge-direction">Edge Direction:</label>
+        <select name="edge-direction" id="edge-direction">
+            <option value="undirected">Undirected</option>
+            <option value="directed">Directed</option>
+        </select>
+        <br>
+        <label for="edge-weight">Edge Weight:</label>
+        <input type="text" id="edge-weight" name="lname" style="width: 75px">
+    </div>
+    <div id="animation-settings-popup" class="modal">
+        <label for="algorithm-speed">Seconds per step</label>
+        <div class="slidecontainer">
+            <input type="range" min="0" max="2500" value="750" class="slider" id="algorithm-speed">
+        </div>
+        <br>
+        <label for="data-select">View Data Structure</label>
+        <select name="data-select" id="data-select">
+            <option value="none">None</option>
+            <option value="adjList">Adjacency List</option>
+            <option value="adjMat">Adjacency Matrix</option>
+        </select>
+        <br>
+        <button id="load-button">
+            Load Example
+        </button>
+        <br>
+        <button id="reset-button" onclick="resetNodes()">
+            Reset
+        </button>
+        <br>
+        <button id="generate-button">
+            Generate Gif
+        </button>
+    </div>
+    <button id="animation-settings-button" onclick="showAddSettingsPopup()">
+        <!-- <i id="animation-settings-icon" class="fa fa-gear"></i> -->
+        <i id="animation-settings-icon" class="bi bi-gear button-icon"></i>
+        <!-- <svg id="animation-settings-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> -->
+    </button>
+    <br>
 </body>
 </html>

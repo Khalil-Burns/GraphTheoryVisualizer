@@ -1,5 +1,13 @@
 body {
     padding: 0;
+    padding-top: 10px;
+    padding-left: 10px;
+    margin: 0;
+    user-select: none;
+    background-color: rgb(243 244 246);
+    font-family: Verdana, sans-serif;
+}
+p {
     margin: 0;
 }
 
@@ -11,4 +19,124 @@ canvas {
     position: fixed;
     border: 5px solid black;
     border-radius: 50%;
+}
+
+#animation-settings-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    border: none;
+    border: 1px solid #e5e7eb;
+    /* box-shadow: 1px 1px 25px 15px; */
+    background-color: white;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
+    transition:  0.15s ease-out;
+    z-index: 3;
+}
+#animation-settings-icon {
+    color: #9CA3AF;
+    position: relative;
+    transition:  0.15s ease-out;
+}
+#animation-settings-button:hover #animation-settings-icon {
+    /* transform: rotateY(180deg); */
+    color: #D1D5DB;
+}
+#animation-settings-button:active {
+    /* transform: rotateY(180deg); */
+    
+    box-shadow: 0 0 10px #939597;
+}
+#animation-settings-button:active #animation-settings-icon {
+    /* transform: rotateY(180deg); */
+    color: #6B7280;
+}
+
+.modal {
+    border-radius: 12.5px;
+    border-top-right-radius: 25px;
+    background-color: white;
+    position: fixed;
+
+    overflow: hidden;
+
+    border-radius: 12.5px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 0 4px #939597;
+    display: block;
+    z-index: 2;
+}
+#animation-settings-popup {
+    content: '';
+    height: 0px;
+    width: 0px;
+
+    top: 20px;
+    right: 20px;
+
+    animation-fill-mode: forwards;
+}
+#edge-settings {
+    padding: 10px;
+    width: 220px;
+}
+
+.icon-button {
+    border: none;
+    background-color: transparent;
+}
+.icon {
+    color: #9CA3AF;
+}
+.icon:hover {
+    color: #D1D5DB;
+}
+.icon:active {
+    color: #6B7280;
+}
+
+@keyframes showAddSettingsPopup {
+    0% {
+        height: 50px;
+        width: 50px;
+        border-radius: 25px;
+        border: none;
+        box-shadow: none;
+        display: none;
+        z-index: -1;
+    }
+    100% {
+        height: 250px;
+        width: 30%;
+    }
+}
+@keyframes hideAddSettingsPopup {
+    0% {
+        height: 250px;
+        width: 30%;
+        border-radius: 12.5px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 0 10px #939597;
+        display: block;
+        z-index: 2;
+    }
+    100% {
+        height: 50px;
+        width: 50px;
+        border-radius: 25px;
+        border: none;
+        box-shadow: none;
+        display: none;
+        z-index: -1;
+    }
+}
+#error-message {
+    color: red;
 }

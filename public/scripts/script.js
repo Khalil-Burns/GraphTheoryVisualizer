@@ -2,38 +2,45 @@ var canvasObj;
 var canvas;
 var cW = window.innerWidth, cH = window.innerHeight; //canvas width and height
 var TIME_INTERVAL_MS = 1;
-var TIME_INTERVALE_SEC = TIME_INTERVAL_MS / 1000;
+var TIME_INTERVAL_SEC = TIME_INTERVAL_MS / 1000;
 var nodes = [];
-var adjList = {};
+var adjMat = {};
 var curSelected;
 var nodesNum = 0;
+var edgeDirection;
+var edgeWeight;
 
 window.onload = function() {
+    buttonScriptStart();
+
     canvasObj = new Canvas(cW, cH, "canvas")
     canvas = canvasObj.canvas;
 
-    setInterval(loop, TIME_INTERVAL_MS);
+    edgeDirection = document.getElementById('edge-direction');
+    edgeWeight = document.getElementById('edge-weight');
 
     canvas.addEventListener("dblclick", (eDbclick) => { //double click to add new node
+        if (Algorithm.running) {
+            return;
+        }
+
         var mousePos = getMousePos(canvas, eDbclick);
-        adjList[nodesNum] = {};
+        adjMat[nodesNum] = {};
         nodes[nodesNum] = (new Node(mousePos.x, mousePos.y, 0, 0, [], 25, {}, nodesNum))
         nodes[nodesNum].element.onmousedown = dragMouseDown;
         nodes[nodesNum].element.addEventListener("dblclick", (e) => { //double click node to delete it
-            nodes[e.target.id].element.remove();
-            for (var v in adjList[e.target.id]) {
-                delete adjList[e.target.id][v];
-                delete adjList[v][e.target.id];
+            if (Algorithm.running) {
+                return;
             }
-            delete nodes[e.target.id];
-            if (curSelected == e.target.id) {
-                curSelected = null;
+            if (e.shiftKey) {
+                return;
             }
+            nodes[e.target.id].delete();
         });
-        nodes[nodesNum].element.addEventListener("mouseover", (e) => { //double click node to delete it
+        nodes[nodesNum].element.addEventListener("mouseover", (e) => {
             nodes[e.target.id].states['hover'] = true;
         });
-        nodes[nodesNum].element.addEventListener("mouseout", (e) => { //double click node to delete it
+        nodes[nodesNum].element.addEventListener("mouseout", (e) => {
             delete nodes[e.target.id].states['hover'];
         });
         nodesNum++;
@@ -41,6 +48,8 @@ window.onload = function() {
     window.addEventListener("resize", (e) => {
         canvasObj.resize(window.innerWidth, window.innerHeight);
     });
+
+    setInterval(loop, TIME_INTERVAL_MS);
 }
 function getMousePos(canvas, evt) { //doesnt need to be this complicated, its a long story
     var rect = canvas.getBoundingClientRect();
@@ -83,26 +92,51 @@ function closeDragElement(e, id) {
     // stop moving when mouse button is released:
     document.onmouseup = null;
     document.onmousemove = null;
+    nodes[id].release();
     delete nodes[id].states['click'];
     delete nodes[id].states['preselected'];
     
     if (nodes[id].states['selected']) {
+        if (Algorithm.running) {
+            return;
+        }
         if (curSelected == id) {
-            delete curSelected;
+            curSelected = null;
         }
         delete nodes[id].states['selected'];
     }
     else if (e.shiftKey) {
+        if (Algorithm.running) {
+            return;
+        }
         nodes[id].states['selected'] = true;
 
         if (curSelected) {
-            if (adjList[curSelected][id] || adjList[id][curSelected]) {
-                delete adjList[curSelected][id];
-                delete adjList[id][curSelected];
+            if (edgeDirection.value == 'undirected') {
+                if (adjMat[curSelected][id] != null || adjMat[id][curSelected] != null) {
+                    delete adjMat[curSelected][id];
+                    delete adjMat[id][curSelected];
+                }
+                else {
+                    adjMat[curSelected][id] = edgeWeight.value?Number(edgeWeight.value):0;
+                    adjMat[id][curSelected] = edgeWeight.value?Number(edgeWeight.value):0;
+                    edgeWeight.value = '';
+                }
             }
             else {
-                adjList[curSelected][id] = true;
-                adjList[id][curSelected] = true;
+                if (adjMat[curSelected][id] != null) {
+                    if (adjMat[id][curSelected] != null) {
+                        delete adjMat[id][curSelected];
+                    }
+                    else {
+                        delete adjMat[curSelected][id];
+                    }
+                    // delete adjMat[curSelected][id];
+                }
+                else {
+                    adjMat[curSelected][id] = edgeWeight.value?Number(edgeWeight.value):0;
+                    edgeWeight.value = '';
+                }
             }
 
             delete nodes[curSelected].states['selected'];
@@ -117,10 +151,11 @@ function closeDragElement(e, id) {
 }
 
 function loop() {
+    stepHandler();
     canvasObj.clear();
 
     canvasObj.drawEdges()
-    for (node in nodes) {
+    for (var node in nodes) {
         nodes[node].update();
         // canvasObj.drawNode(nodes[i]);
     }

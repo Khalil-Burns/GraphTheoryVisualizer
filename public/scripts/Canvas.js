@@ -1,4 +1,7 @@
 class Canvas {
+
+    static headlen = 10; // length of head in pixels
+
     constructor(width, height, id, parent) {
         this.width = width;
         this.height = height;
@@ -18,13 +21,20 @@ class Canvas {
     }
     
     drawEdges() {
-        for (var u in Object.keys(adjList)) {
-            for (var v in adjList[u]) {
+        for (var u in Object.keys(adjMat)) {
+            for (var v in adjMat[u]) {
                 this.context.beginPath();
                 this.context.strokeStyle = "black";
                 this.context.moveTo(nodes[u].x, nodes[u].y);
                 this.context.lineTo(nodes[v].x, nodes[v].y);
                 this.context.stroke();
+
+                if (!(adjMat[u][v] != null && adjMat[v][u] != null)) {
+                    this.drawArrowFromMiddle(nodes[u].x, nodes[u].y, nodes[v].x, nodes[v].y);
+                }
+                if (adjMat[u][v] != 0) {
+                    this.drawEdgeWeight(adjMat[u][v], nodes[u].x, nodes[u].y, nodes[v].x, nodes[v].y);
+                }
             }
         }
     }
@@ -36,7 +46,35 @@ class Canvas {
         this.context.fill();
         this.context.stroke();
     }
-    
+
+    drawEdgeWeight(weight, fromX, fromY, toX, toY) {
+        var dx = toX - fromX;
+        var dy = toY - fromY;
+        var angle = Math.atan2(dy, dx);
+
+        toX = fromX/2 + toX/2;
+        toY = fromY/2 + toY/2;
+
+        this.context.moveTo(toX, toY);
+        this.context.font = "20px Arial";
+        this.context.fillText(weight, toX,toY);
+        this.context.stroke();
+    }
+    drawArrowFromMiddle(fromX, fromY, toX, toY) {
+        var dx = toX - fromX;
+        var dy = toY - fromY;
+        var angle = Math.atan2(dy, dx);
+
+        toX = fromX/2 + toX/2;
+        toY = fromY/2 + toY/2;
+
+        this.context.moveTo(toX, toY);
+        this.context.lineTo(toX - Canvas.headlen * Math.cos(angle - Math.PI / 6), toY - Canvas.headlen * Math.sin(angle - Math.PI / 6));
+        this.context.moveTo(toX, toY);
+        this.context.lineTo(toX - Canvas.headlen * Math.cos(angle + Math.PI / 6), toY - Canvas.headlen * Math.sin(angle + Math.PI / 6));
+        this.context.stroke()
+    }
+
     clear() {
         this.context.clearRect(0, 0, this.width, this.height);
     }
