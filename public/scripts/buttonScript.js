@@ -61,12 +61,14 @@ function stopAlgorithm() {
         return;
     }
     alg.complete = true;
+    setNodesToDefault()
 }
 function stepHandler() {
     if (Algorithm.running) {
         if (alg.isComplete()) {
             Algorithm.running = false;
             errorMessage.innerHTML = ''
+            setNodesToDefault()
             return;
         }
 

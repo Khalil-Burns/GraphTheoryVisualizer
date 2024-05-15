@@ -24,8 +24,8 @@ class Canvas {
         for (var u in Object.keys(adjMat)) {
             for (var v in adjMat[u]) {
                 this.context.beginPath();
-                this.context.lineWidth = 1.5 + 0.5 * Math.sin(new Date().getTime() / 750);
-                this.context.strokeStyle = "black";
+                this.context.lineWidth = 2 + 0.75 * Math.sin((new Date().getTime() - nodes[u].connections[v]['time']) / 333);
+                this.context.strokeStyle = Canvas.getColor(nodes[u].connections[v]['color']);
                 this.context.moveTo(nodes[u].x, nodes[u].y);
                 this.context.lineTo(nodes[v].x, nodes[v].y);
                 this.context.stroke();
@@ -43,7 +43,7 @@ class Canvas {
         this.context.strokeStyle = "black";
         this.context.beginPath();
         this.context.arc(node.x, node.y, node.radius, 0, 2 * Math.PI);
-        this.context.fillStyle = `rgb(${node.color["r"]}, ${node.color["g"]}, ${node.color["b"]})`;
+        this.context.fillStyle = Canvas.getColor(node.color);
         this.context.fill();
         this.context.stroke();
     }
@@ -74,6 +74,10 @@ class Canvas {
         this.context.moveTo(toX, toY);
         this.context.lineTo(toX - Canvas.headlen * Math.cos(angle + Math.PI / 6), toY - Canvas.headlen * Math.sin(angle + Math.PI / 6));
         this.context.stroke()
+    }
+
+    static getColor(json) {
+        return(`rgb(${json["r"]}, ${json["g"]}, ${json["b"]})`);
     }
 
     clear() {

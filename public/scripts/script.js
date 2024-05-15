@@ -26,7 +26,7 @@ window.onload = function() {
 
         var mousePos = getMousePos(canvas, eDbclick);
         adjMat[nodesNum] = {};
-        nodes[nodesNum] = (new Node(mousePos.x, mousePos.y, Math.random() * 4 - 2, Math.random() * 4 - 2, [], 25, {}, nodesNum))
+        nodes[nodesNum] = (new Node(mousePos.x, mousePos.y, Math.random() * 4 - 2, Math.random() * 4 - 2, {}, 25, {}, nodesNum))
         nodes[nodesNum].element.onmousedown = dragMouseDown;
         nodes[nodesNum].element.addEventListener("dblclick", (e) => { //double click node to delete it
             if (Algorithm.running) {
@@ -114,27 +114,28 @@ function closeDragElement(e, id) {
         if (curSelected) {
             if (edgeDirection.value == 'undirected') {
                 if (adjMat[curSelected][id] != null || adjMat[id][curSelected] != null) {
-                    delete adjMat[curSelected][id];
-                    delete adjMat[id][curSelected];
+                    removeEdge(curSelected, id);
+                    removeEdge(id, curSelected);
                 }
                 else {
-                    adjMat[curSelected][id] = edgeWeight.value?Number(edgeWeight.value):0;
-                    adjMat[id][curSelected] = edgeWeight.value?Number(edgeWeight.value):0;
+                    addEdge(curSelected, id);
+                    addEdge(id, curSelected);
+
                     edgeWeight.value = '';
                 }
             }
             else {
                 if (adjMat[curSelected][id] != null) {
                     if (adjMat[id][curSelected] != null) {
-                        delete adjMat[id][curSelected];
+                        removeEdge(id, curSelected);
                     }
                     else {
-                        delete adjMat[curSelected][id];
+                        removeEdge(curSelected, id);
                     }
                     // delete adjMat[curSelected][id];
                 }
                 else {
-                    adjMat[curSelected][id] = edgeWeight.value?Number(edgeWeight.value):0;
+                    addEdge(curSelected, id);
                     edgeWeight.value = '';
                 }
             }
@@ -146,6 +147,23 @@ function closeDragElement(e, id) {
         }
         else {
             curSelected = id;
+        }
+    }
+}
+function addEdge(u, v) {
+    adjMat[u][v] = edgeWeight.value?Number(edgeWeight.value):0;
+    nodes[u].connections[v] = {'weight': adjMat[u][v], 'color': Node.EDGE_COLOUR_DEFAULT, 'time': new Date().getTime()};
+}
+function removeEdge(u, v) {
+    delete adjMat[u][v];
+    delete nodes[u].connections[v];
+}
+
+function setNodesToDefault() {
+    for (var node in nodes) {
+        nodes[node].states = {'selected': nodes[node].states['selected'], 'preselected': nodes[node].states['preselected'], 'click': nodes[node].states['click'], 'hover': nodes[node].states['hover']}
+        for (var connection in nodes[node].connections) {
+            nodes[node].connections[connection]['color'] = Node.EDGE_COLOUR_DEFAULT;
         }
     }
 }

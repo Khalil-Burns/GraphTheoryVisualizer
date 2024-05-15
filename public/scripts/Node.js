@@ -6,6 +6,8 @@ class Node {
     static COLOUR_CLICK = {"r": 210, "g": 210, "b": 215};
     static COLOUR_QUEUED = {"r": 255, "g": 193, "b": 128};
     static COLOUR_VISITED = {"r": 125, "g": 125, "b": 125};
+    static EDGE_COLOUR_DEFAULT = {"r": 0, "g": 0, "b": 0};
+    static EDGE_COLOUR_QUEUED = {"r": 0, "g": 180, "b": 200};
     static FRICTION_ACCEL = 9.8;
     static VELOCITY_REDUCTION = 1.05;
     static PREV_POSITION_DEPTH = 20;
