@@ -153,6 +153,10 @@ function closeDragElement(e, id) {
 function addEdge(u, v) {
     adjMat[u][v] = edgeWeight.value?Number(edgeWeight.value):0;
     nodes[u].connections[v] = {'weight': adjMat[u][v], 'color': Node.EDGE_COLOUR_DEFAULT, 'time': new Date().getTime()};
+    if (adjMat[v][u] != null) {
+        adjMat[v][u] = adjMat[u][v];
+        nodes[v].connections[u] = {'weight': adjMat[u][v], 'color': Node.EDGE_COLOUR_DEFAULT, 'time': new Date().getTime()};
+    }
 }
 function removeEdge(u, v) {
     delete adjMat[u][v];
