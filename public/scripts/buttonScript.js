@@ -23,8 +23,10 @@ function resetNodes() {
 function runAlgorithm() {
     errorMessage.innerHTML = ''
     if (!curSelected) {
-        errorMessage.innerHTML = 'Please select a starting node'
-        return;
+        if (algSelect.value != 'kruskals') {
+            errorMessage.innerHTML = 'Please select a starting node'
+            return;
+        }
     }
     if (!Algorithm.running) {
         alg = new Algorithm(algSelect.value);

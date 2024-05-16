@@ -8,6 +8,8 @@ class Node {
     static COLOUR_VISITED = {"r": 125, "g": 125, "b": 125};
     static EDGE_COLOUR_DEFAULT = {"r": 0, "g": 0, "b": 0};
     static EDGE_COLOUR_QUEUED = {"r": 0, "g": 180, "b": 200};
+    static EDGE_COLOUR_HIDDEN = {"r": 180, "g": 180, "b": 180};
+    static EDGE_COLOUR_ERROR = {"r": 255, "g": 0, "b": 0};
     static FRICTION_ACCEL = 9.8;
     static VELOCITY_REDUCTION = 1.05;
     static PREV_POSITION_DEPTH = 20;
@@ -109,12 +111,12 @@ class Node {
     }
     release() {
         for (var i = 1; i < Node.PREV_POSITION_DEPTH; i++) {
-            this.vX += (this.prevXAverage[i] - this.prevXAverage[i - 1]) / TIME_INTERVAL_MS;
+            this.vX += (this.prevXAverage[i] - this.prevXAverage[i - 1]);
         }
         this.vX /= Node.PREV_POSITION_DEPTH - 1;
 
         for (var i = 1; i < Node.PREV_POSITION_DEPTH; i++) {
-            this.vY += (this.prevYAverage[i] - this.prevYAverage[i - 1]) / TIME_INTERVAL_MS;
+            this.vY += (this.prevYAverage[i] - this.prevYAverage[i - 1]);
         }
         this.vY /= Node.PREV_POSITION_DEPTH - 1;
     }

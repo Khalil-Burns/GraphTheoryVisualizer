@@ -1,7 +1,7 @@
 var canvasObj;
 var canvas;
 var cW = window.innerWidth, cH = window.innerHeight; //canvas width and height
-var TIME_INTERVAL_MS = 1;
+var TIME_INTERVAL_MS = 10;
 var TIME_INTERVAL_SEC = TIME_INTERVAL_MS / 1000;
 var nodes = [];
 var adjMat = {};
