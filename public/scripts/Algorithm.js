@@ -55,6 +55,12 @@ class Algorithm {
                                 nodes[this.steps[0][idx][step]['to']].connections[this.steps[0][idx][step]['from']]['color'] = Node.EDGE_COLOUR_HIDDEN;
                             }
                             break;
+                    case 'selectedEdge':
+                        nodes[this.steps[0][idx][step]['from']].connections[this.steps[0][idx][step]['to']]['color'] = Node.EDGE_COLOUR_SELECTED;
+                        if (adjMat[this.steps[0][idx][step]['to']][this.steps[0][idx][step]['from']] != null) {
+                            nodes[this.steps[0][idx][step]['to']].connections[this.steps[0][idx][step]['from']]['color'] = Node.EDGE_COLOUR_SELECTED;
+                        }
+                        break;
                     case 'queued':
                         if (nodes[this.steps[0][idx][step]].states['visiting']) {
                             delete nodes[this.steps[0][idx][step]].states['visiting'];
@@ -220,6 +226,10 @@ class Algorithm {
             else {
                 // this.steps.push([{"errorEdge": {"from": u, "to": v}}]);
             }
+        }
+        this.steps.push([]);
+        for (var edge in result) {
+            this.steps[this.steps.length - 1].push({"selectedEdge": {"from": result[edge]['u'], "to": result[edge]['v']}});
         }
     }
     isComplete() {
