@@ -20,6 +20,9 @@ function resetNodes() {
     }
     nodesNum = 0;
 }
+function loadExample() {
+    Examples.loadExample(algSelect.value);
+}
 function runAlgorithm() {
     errorMessage.innerHTML = ''
     if (!curSelected) {

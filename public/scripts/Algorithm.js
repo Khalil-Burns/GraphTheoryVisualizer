@@ -103,23 +103,12 @@ class Algorithm {
             
             var connectionCnt = 0;
             for (var node in adjMat[this.bfsQueue[0]]) {
-                if (this.bfsVisited[node]) {
-                    continue;
-                }
-                // if (connectionCnt == 0) { //edge removals are stored ahead, but there will be none stored ahead if this is the first visited node
-                //     this.steps.push([{"queueEdge": {"from": this.bfsQueue[0], "to": node}}]);
-                // }
-                // else {
-                    this.steps[this.steps.length - 1].push({"queueEdge": {"from": this.bfsQueue[0], "to": node}})
-                // }
+                this.steps[this.steps.length - 1].push({"queueEdge": {"from": this.bfsQueue[0], "to": node}})
                 connectionCnt++;
             }
 
             connectionCnt = 0;
             for (var node in adjMat[this.bfsQueue[0]]) {
-                if (this.bfsVisited[node]) {
-                    continue;
-                }
                 if (connectionCnt == 0) { //edge removals are stored ahead, but there will be none stored ahead if this is the first visited node
                     this.steps.push([{"defaultEdge": {"from": this.bfsQueue[0], "to": node}}]);
                 }
@@ -130,16 +119,18 @@ class Algorithm {
             }
 
             for (var node in adjMat[this.bfsQueue[0]]) {
+
+                this.steps[this.steps.length - 1].push({"queueEdge": {"from": this.bfsQueue[0], "to": node}});
+                
+                this.steps.push([{"defaultEdge": {"from": this.bfsQueue[0], "to": node}}])
+
                 if (this.bfsVisited[node]) {
                     continue;
                 }
                 this.bfsVisited[node] = true;
                 this.bfsQueue.push(node);
 
-                this.steps[this.steps.length - 1].push({"queued": node});
-
-                this.steps[this.steps.length - 1].push({"queueEdge": {"from": this.bfsQueue[0], "to": node}});
-                this.steps.push([{"defaultEdge": {"from": this.bfsQueue[0], "to": node}}])
+                this.steps[this.steps.length - 2].push({"queued": node});
             }
             if (connectionCnt > 0) { //there is an edge removal step stored ahead, so don't create a new index, use that index
                 this.steps[this.steps.length - 1].push({"visited": this.bfsQueue[0]});
@@ -190,6 +181,7 @@ class Algorithm {
     kruskalMST() {
         var edges = [];
         var result = [];
+        var visited = {}
         for (var u in Object.keys(adjMat)) {
             for (var v in adjMat[u]) {
                 edges.push({"weight": adjMat[u][v], "u": u, "v": v});
@@ -210,6 +202,7 @@ class Algorithm {
             rank.push(0)
         }
 
+        var append = false; //whether to append to the last step (true) or create new step (false)
         while (i < edges.length) {
             var u = edges[i]["u"];
             var v = edges[i]["v"];
@@ -221,12 +214,45 @@ class Algorithm {
             if (x != y) {
                 Algorithm.union(parent, rank, x, y)
                 result.push({"u": u, "v": v, "weight": weight});
-                this.steps.push([{"defaultEdge": {"from": u, "to": v}}]);
+                if (append) {
+                    this.steps[this.steps.length - 1].push({"defaultEdge": {"from": u, "to": v}});
+                    append = false
+                }
+                else {
+                    this.steps.push([{"defaultEdge": {"from": u, "to": v}}]);
+                }
             }
             else {
-                // this.steps.push([{"errorEdge": {"from": u, "to": v}}]);
+                if (visited[v]) {
+                    if (visited[v][u]) {
+                        continue;
+                    }
+                }
+                if (append) {
+                    this.steps[this.steps.length - 1].push({"errorEdge": {"from": u, "to": v}});
+                }
+                else {
+                    this.steps.push([{"errorEdge": {"from": u, "to": v}}]);
+                }
+                this.steps.push([{"hiddenEdge": {"from": u, "to": v}}]);
+                append = true;
             }
+            if (!(visited[u] != null)) {
+                visited[u] = {}
+            }
+            visited[u][v] = true;
         }
+
+        this.steps.push([]);
+        for (var edge in result) {
+            this.steps[this.steps.length - 1].push({"selectedEdge": {"from": result[edge]['u'], "to": result[edge]['v']}});
+        }
+
+        this.steps.push([]);
+        for (var edge in result) {
+            this.steps[this.steps.length - 1].push({"selectedEdge": {"from": result[edge]['u'], "to": result[edge]['v']}});
+        }
+
         this.steps.push([]);
         for (var edge in result) {
             this.steps[this.steps.length - 1].push({"selectedEdge": {"from": result[edge]['u'], "to": result[edge]['v']}});

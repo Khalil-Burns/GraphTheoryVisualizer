@@ -7,10 +7,10 @@ class Node {
     static COLOUR_QUEUED = {"r": 255, "g": 193, "b": 128};
     static COLOUR_VISITED = {"r": 125, "g": 125, "b": 125};
     static EDGE_COLOUR_DEFAULT = {"r": 0, "g": 0, "b": 0};
-    static EDGE_COLOUR_QUEUED = {"r": 255, "g": 193, "b": 128};
+    static EDGE_COLOUR_QUEUED = {"r": 220, "g": 160, "b": 10};
     static EDGE_COLOUR_HIDDEN = {"r": 180, "g": 180, "b": 180};
-    static EDGE_COLOUR_ERROR = {"r": 255, "g": 0, "b": 0};
-    static EDGE_COLOUR_SELECTED = {"r": 0, "g": 255, "b": 0};
+    static EDGE_COLOUR_ERROR = {"r": 180, "g": 30, "b": 30};
+    static EDGE_COLOUR_SELECTED = {"r": 70, "g": 180, "b": 30};
     static FRICTION_ACCEL = 9.8;
     static VELOCITY_REDUCTION = 1.05;
     static PREV_POSITION_DEPTH = 20;

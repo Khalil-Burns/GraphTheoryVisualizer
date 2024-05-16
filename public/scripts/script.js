@@ -25,24 +25,7 @@ window.onload = function() {
         }
 
         var mousePos = getMousePos(canvas, eDbclick);
-        adjMat[nodesNum] = {};
-        nodes[nodesNum] = (new Node(mousePos.x, mousePos.y, Math.random() * 4 - 2, Math.random() * 4 - 2, {}, 25, {}, nodesNum))
-        nodes[nodesNum].element.onmousedown = dragMouseDown;
-        nodes[nodesNum].element.addEventListener("dblclick", (e) => { //double click node to delete it
-            if (Algorithm.running) {
-                return;
-            }
-            if (e.shiftKey) {
-                return;
-            }
-            nodes[e.target.id].delete();
-        });
-        nodes[nodesNum].element.addEventListener("mouseover", (e) => {
-            nodes[e.target.id].states['hover'] = true;
-        });
-        nodes[nodesNum].element.addEventListener("mouseout", (e) => {
-            delete nodes[e.target.id].states['hover'];
-        });
+        createNode(mousePos.x, mousePos.y, Math.random() * 4 - 2, Math.random() * 4 - 2, {}, 25, {}, nodesNum);
         nodesNum++;
     });
     window.addEventListener("resize", (e) => {
@@ -50,6 +33,28 @@ window.onload = function() {
     });
 
     setInterval(loop, TIME_INTERVAL_MS);
+}
+function createNode(x, y, vX, vY, connections, radius, states, ID) {
+    var newNode = new Node(x, y, vX, vY, connections, radius, states, ID)
+    adjMat[ID] = {};
+    nodes[ID] = newNode
+    nodes[ID].element.onmousedown = dragMouseDown;
+    nodes[ID].element.addEventListener("dblclick", (e) => { //double click node to delete it
+        if (Algorithm.running) {
+            return;
+        }
+        if (e.shiftKey) {
+            return;
+        }
+        nodes[e.target.id].delete();
+    });
+    nodes[ID].element.addEventListener("mouseover", (e) => {
+        nodes[e.target.id].states['hover'] = true;
+    });
+    nodes[ID].element.addEventListener("mouseout", (e) => {
+        delete nodes[e.target.id].states['hover'];
+    });
+    return(newNode)
 }
 function getMousePos(canvas, evt) { //doesnt need to be this complicated, its a long story
     var rect = canvas.getBoundingClientRect();
@@ -175,7 +180,6 @@ function setNodesToDefault() {
 function loop() {
     stepHandler();
     canvasObj.clear();
-
     canvasObj.drawEdges()
     for (var node in nodes) {
         nodes[node].update();
