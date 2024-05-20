@@ -5,7 +5,7 @@ class Algorithm {
     constructor(type) {
         this.type = type;
         this.complete = false;
-
+        console.log(nodes)
         if (this.type == 'bfs') {
             this.bfsQueue = [curSelected];
             this.bfsVisited = {}; this.bfsVisited[curSelected] = true;
@@ -19,7 +19,11 @@ class Algorithm {
         }
         else if (this.type == 'kruskals') {
             this.steps = [[]];
-            this.kruskalMST();
+            this.kruskalsMST();
+        }
+        else if (this.type == 'prims') {
+            this.steps = [[]];
+            this.primsMST();
         }
     }
     step() {
@@ -87,6 +91,17 @@ class Algorithm {
                             delete nodes[this.steps[0][idx][step]].states['queued'];
                         }
                         nodes[this.steps[0][idx][step]].states[step] = true;
+                        break;
+                    case 'default':
+                        if (nodes[this.steps[0][idx][step]].states['visiting']) {
+                            delete nodes[this.steps[0][idx][step]].states['visiting'];
+                        }
+                        if (nodes[this.steps[0][idx][step]].states['queued']) {
+                            delete nodes[this.steps[0][idx][step]].states['queued'];
+                        }
+                        if (nodes[this.steps[0][idx][step]].states['visited']) {
+                            delete nodes[this.steps[0][idx][step]].states['visited'];
+                        }
                         break;
                     default:
                         nodes[this.steps[0][idx][step]].states[step] = true;
@@ -178,10 +193,11 @@ class Algorithm {
             this.steps[this.steps.length - 1].push({"defaultEdge": {"from": prev, "to": curNode}});
         }
     }
-    kruskalMST() {
+    kruskalsMST() { //https://www.w3schools.com/dsa/dsa_algo_mst_kruskal.php
         var edges = [];
         var result = [];
-        var visited = {}
+        var visited = {};
+
         for (var u in Object.keys(adjMat)) {
             for (var v in adjMat[u]) {
                 edges.push({"weight": adjMat[u][v], "u": u, "v": v});
@@ -258,6 +274,87 @@ class Algorithm {
             this.steps[this.steps.length - 1].push({"selectedEdge": {"from": result[edge]['u'], "to": result[edge]['v']}});
         }
     }
+
+    primsMST() { //https://www.w3schools.com/dsa/dsa_algo_mst_prim.php
+
+        var in_mst = []
+        var key_values = []
+        var parents = []
+        var result = [];
+
+        for (var u in Object.keys(adjMat)) {
+            for (var v in adjMat[u]) {
+                this.steps[0].push({"hiddenEdge": {"from": u, "to": v}});
+            }
+        }
+        this.steps.push([]);
+
+        for (var node in nodes) {
+            in_mst.push(false);
+            key_values.push(Number.POSITIVE_INFINITY);
+            parents.push(-1);
+        }
+        key_values[Object.keys(nodes)[Math.floor(Math.random() * Object.keys(nodes).length)]] = 0 // starting vertex
+
+        var u;
+        var min;
+        for (var _ in nodes) {
+            min = null;
+            for (var node in nodes) {
+                if (in_mst[node]) {
+                    continue;
+                }
+                if (min == null) {
+                    min = node;
+                    continue;
+                }
+                if (key_values[node] < key_values[min]) {
+                    min = node;
+                }
+            }
+            u = min
+            this.steps[this.steps.length - 1].push({"queued": u});
+
+            in_mst[u] = true
+
+            if (parents[u] != -1) {
+                this.steps.push([{"defaultEdge": {"from": parents[u], "to": u}}]);
+                result.push({"u": parents[u], "v": u, "weight": adjMat[parents[u]][u]});
+            }
+
+            this.steps.push([]);
+            this.steps.push([{"default": u}])
+            for (var v in nodes) {
+                if (0 < adjMat[u][v] && adjMat[u][v] < key_values[v] && !in_mst[v]) {
+                    key_values[v] = adjMat[u][v]
+                    this.steps[this.steps.length - 2].push({"queueEdge": {"from": u, "to": v}});
+                    // this.steps[this.steps.length - 1].push({"hiddenEdge": {"from": u, "to": v}});
+                    parents[v] = u
+                }
+            }
+        }
+
+        this.steps.push([]);
+        for (var u in Object.keys(adjMat)) {
+            for (var v in adjMat[u]) {
+                this.steps[this.steps.length - 1].push({"hiddenEdge": {"from": u, "to": v}});
+            }
+        }
+        for (var edge in result) {
+            this.steps[this.steps.length - 1].push({"selectedEdge": {"from": result[edge]['u'], "to": result[edge]['v']}});
+        }
+
+        this.steps.push([]);
+        for (var edge in result) {
+            this.steps[this.steps.length - 1].push({"selectedEdge": {"from": result[edge]['u'], "to": result[edge]['v']}});
+        }
+
+        this.steps.push([]);
+        for (var edge in result) {
+            this.steps[this.steps.length - 1].push({"selectedEdge": {"from": result[edge]['u'], "to": result[edge]['v']}});
+        }
+    }
+
     isComplete() {
         return(this.complete);
     }

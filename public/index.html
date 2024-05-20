@@ -13,7 +13,7 @@
     <script src="scripts/Node.js"></script>
     <script src="scripts/Algorithm.js"></script>
     <script src="scripts/exampleLoader.js"></script>
-    <script src="scripts/example_graphs/kruskalsMST.js"></script>
+    <script src="scripts/example_graphs/mstExamples.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -27,9 +27,18 @@
 <body>
     <label for="algorithms-select">Select an algorithm to run:</label>
     <select name="algorithms-select" id="algorithms-select">
-        <option value="dfs">DFS</option>
-        <option value="bfs">BFS</option>
-        <option value="kruskals">Kruskal's MST</option>
+        <optgroup label="Graph Traversal">
+            <option value="dfs">DFS</option>
+            <option value="bfs">BFS</option>
+        </optgroup>
+        <optgroup label="Shortest Path">
+            <option value="dijstras">Dijkstra's</option>
+            <option value="dijstras">A*</option>
+        </optgroup>
+        <optgroup label="Minimum Spanning Tree (MST)">
+            <option value="kruskals">Kruskal's</option>
+            <option value="prims">Prim's</option>
+        </optgroup>
     </select>
     <button id="run-button" class="icon-button">
         <i class="fa fa-play icon" onclick="runAlgorithm()"></i>

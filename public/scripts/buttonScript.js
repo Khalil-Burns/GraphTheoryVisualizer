@@ -26,7 +26,7 @@ function loadExample() {
 function runAlgorithm() {
     errorMessage.innerHTML = ''
     if (!curSelected) {
-        if (algSelect.value != 'kruskals') {
+        if (algSelect.value != 'kruskals' && algSelect.value != 'prims') {
             errorMessage.innerHTML = 'Please select a starting node'
             return;
         }

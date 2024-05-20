@@ -4,7 +4,8 @@ class Examples {
         var maxID = 0;
         switch (example) {
             case 'kruskals':
-                graph = kruskalsExample;
+                var rand = Math.floor(Math.random() * mstExamples.length);
+                graph = mstExamples[rand];
                 break;
             default:
                 break;
@@ -22,6 +23,5 @@ class Examples {
             }
         }
         nodesNum = maxID + 1
-        console.log(nodes);
     }
 }
