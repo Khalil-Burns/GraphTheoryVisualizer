@@ -100,9 +100,10 @@ class Node {
             this.y += this.vY;
             // this.resetPrevPositionAverage();
         }
-        else {
-            
-        }
+        this.x = Math.max(this.radius, this.x);
+        this.y = Math.max(this.radius, this.y);
+        this.x = Math.min(cW - this.radius, this.x);
+        this.y = Math.min(cH - this.radius, this.y);
         this.prevXAverage.shift();
         this.prevYAverage.shift();
 
