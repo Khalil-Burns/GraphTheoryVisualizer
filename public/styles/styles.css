@@ -13,7 +13,7 @@ p {
 
 canvas {
     position: fixed;
-    border: 2px solid #6B7280;
+    /* border: 2px solid #6B7280; */
 }
 
 .node {

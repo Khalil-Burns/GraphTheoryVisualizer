@@ -1,4 +1,4 @@
-var mstExample1 = [
+var weightedConnectedExample1 = [
     {
         "x": 200,
         "y": 255,
@@ -276,7 +276,7 @@ var mstExample1 = [
     }
 ]
 
-var mstExample2 = [
+var weightedConnectedExample2 = [
     {
         "x": 52.05480942989317,
         "y": 274.5590339345368,
@@ -600,5 +600,3 @@ var mstExample2 = [
         "ID": 7
     }
 ]
-
-var mstExamples = [mstExample1, mstExample2]

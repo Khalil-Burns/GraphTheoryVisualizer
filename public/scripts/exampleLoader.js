@@ -1,11 +1,20 @@
 class Examples {
+
+    static weightedConnectedExamples = [weightedConnectedExample1, weightedConnectedExample2];
+    static allExamples = [weightedConnectedExample1, weightedConnectedExample2, unweightedConnectedExample1, unweightedTreeExample1];
+
     static loadExample(example) {
         var graph;
         var maxID = 0;
         switch (example) {
             case 'kruskals':
-                var rand = Math.floor(Math.random() * mstExamples.length);
-                graph = mstExamples[rand];
+                var rand = Math.floor(Math.random() * this.weightedConnectedExamples.length);
+                graph = this.weightedConnectedExamples[rand];
+                break;
+            case 'dfs':
+            case 'bfs':
+                var rand = Math.floor(Math.random() * this.allExamples.length);
+                graph = this.allExamples[rand];
                 break;
             default:
                 break;
