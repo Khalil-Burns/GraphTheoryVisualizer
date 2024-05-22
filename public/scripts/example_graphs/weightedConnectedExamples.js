@@ -1,6 +1,6 @@
 var weightedConnectedExample1 = [
     {
-        "x": 200,
+        "x": 400,
         "y": 255,
         "vX": 0,
         "vY": 0,
@@ -38,7 +38,7 @@ var weightedConnectedExample1 = [
         "ID": 0
     },
     {
-        "x": 203.9473684210528,
+        "x": 403.9473684210528,
         "y": 125,
         "vX": 0,
         "vY": 0,
@@ -67,7 +67,7 @@ var weightedConnectedExample1 = [
         "ID": 1
     },
     {
-        "x": 548,
+        "x": 748,
         "y": 119,
         "vX": 0,
         "vY": 0,
@@ -123,7 +123,7 @@ var weightedConnectedExample1 = [
         "ID": 2
     },
     {
-        "x": 550,
+        "x": 750,
         "y": 250,
         "vX": 0,
         "vY": 0,
@@ -161,7 +161,7 @@ var weightedConnectedExample1 = [
         "ID": 3
     },
     {
-        "x": 446.78947368421103,
+        "x": 646.78947368421103,
         "y": 298,
         "vX": 0,
         "vY": 0,
@@ -199,7 +199,7 @@ var weightedConnectedExample1 = [
         "ID": 4
     },
     {
-        "x": 553,
+        "x": 753,
         "y": 417,
         "vX": 0,
         "vY": 0,
@@ -228,7 +228,7 @@ var weightedConnectedExample1 = [
         "ID": 5
     },
     {
-        "x": 198,
+        "x": 398,
         "y": 421.05263157894746,
         "vX": 0,
         "vY": 0,
@@ -278,7 +278,7 @@ var weightedConnectedExample1 = [
 
 var weightedConnectedExample2 = [
     {
-        "x": 52.05480942989317,
+        "x": 352.05480942989317,
         "y": 274.5590339345368,
         "vX": 0,
         "vY": 0,
@@ -307,7 +307,7 @@ var weightedConnectedExample2 = [
         "ID": 0
     },
     {
-        "x": 162.14735676324867,
+        "x": 462.14735676324867,
         "y": 162.7856140891378,
         "vX": 0,
         "vY": 0,
@@ -354,7 +354,7 @@ var weightedConnectedExample2 = [
         "ID": 1
     },
     {
-        "x": 286.71894024630086,
+        "x": 586.71894024630086,
         "y": 123.70858582969294,
         "vX": 0,
         "vY": 0,
@@ -392,7 +392,7 @@ var weightedConnectedExample2 = [
         "ID": 2
     },
     {
-        "x": 405.27750730569176,
+        "x": 705.27750730569176,
         "y": 97.44115806180427,
         "vX": 0,
         "vY": 0,
@@ -421,7 +421,7 @@ var weightedConnectedExample2 = [
         "ID": 3
     },
     {
-        "x": 368.685875461046,
+        "x": 668.685875461046,
         "y": 285.0351197046774,
         "vX": 0,
         "vY": 0,
@@ -477,7 +477,7 @@ var weightedConnectedExample2 = [
         "ID": 4
     },
     {
-        "x": 525.4270995387368,
+        "x": 825.4270995387368,
         "y": 292.28877214939587,
         "vX": 0,
         "vY": 0,
@@ -515,7 +515,7 @@ var weightedConnectedExample2 = [
         "ID": 5
     },
     {
-        "x": 127.2650603770901,
+        "x": 427.2650603770901,
         "y": 405.5948530276815,
         "vX": 0,
         "vY": 0,
@@ -562,7 +562,7 @@ var weightedConnectedExample2 = [
         "ID": 6
     },
     {
-        "x": 287.0823568892629,
+        "x": 587.0823568892629,
         "y": 481.60530078793323,
         "vX": 0,
         "vY": 0,

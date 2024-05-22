@@ -90,6 +90,10 @@ canvas {
     width: 260px;
 }
 
+.inline-block {
+    display: inline-block;
+}
+
 .icon-button {
     border: none;
     background-color: transparent;
